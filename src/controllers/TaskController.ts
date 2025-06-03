@@ -1,18 +1,18 @@
-
 //MODEL
-
 import {Task} from "../models/Task";
+
 import { Op } from "sequelize";
 
 // LISTAGEM DE TAREFAS
 
 const tasks = async (req:any, res:any) => {
-  const {id} = req.params;
-  const {status} = req.query;
-
-  const userId = req.user.id;
 
   try {  
+
+    const {id} = req.params;
+    const {status} = req.query;
+
+    const userId = req.user.id;
     
     if (id) {
 
@@ -47,13 +47,13 @@ const tasks = async (req:any, res:any) => {
 // CADASTRO DE TAREFAS
 
 const createTask = async (req:any, res:any) => {
+   
+ try {
 
   const {description,title,dueDate} = req.body;
   const {id} = req.params;
 
   const status = "pending";
-   
- try {
 
   const userId = req.user.id;
 
@@ -76,10 +76,10 @@ const createTask = async (req:any, res:any) => {
 
 const completeTask = async (req:any, res:any) => {
   
-  const {id} = req.params;
-  const status = "completed";
-
   try{
+    const {id} = req.params;
+    const status = "completed";
+
     if(id > 0){
       const tarefa:any = await Task.findByPk(id);
       await tarefa.update({ status });
@@ -96,9 +96,11 @@ const completeTask = async (req:any, res:any) => {
 // EXCLUIR TAREFAS
 
 const deleteTask = async (req:any, res:any) => {
-  const {id} = req.params;
-  const status = "inactive";
+
   try{
+    const {id} = req.params;
+    const status = "inactive";
+
     if(id > 0){
       const tarefa:any = await Task.findByPk(id);
       await tarefa.update({ status });

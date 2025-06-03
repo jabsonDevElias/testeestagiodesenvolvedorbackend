@@ -3,7 +3,7 @@ import express from "express";
 import { login, registerUser } from "../controllers/UserController";
 import { tasks,createTask,deleteTask,completeTask} from "../controllers/TaskController";
 
-import {authMiddleware} from "../middlewares/auth.middleware";
+import {authMiddleware} from "../middlewares/middleware";
 
 
 const router = express.Router();
@@ -23,4 +23,4 @@ router.patch("/tasks/:id/complete", authMiddleware, completeTask);
 
 
 
-module.exports = router;
+export {router};

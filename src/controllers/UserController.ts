@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 
 import {User} from "../models/User";
 
-const generateToken = (user:any) => {
+const generateToken = (user: { email: string; id: number }) => {
     const secret = process.env.JWT_SECRET;
 
   if (!secret) {
@@ -17,11 +17,13 @@ const generateToken = (user:any) => {
 // CADASTRO DE USUÁRIO
 
 const registerUser = async (req:any, res:any) => {
-  const { email, password,name } = req.body;
-  const hashedPassword = await bcrypt.hash(password, 10);
+
   try { 
+    const { email, password,name } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     await User.create({ name,email,password: hashedPassword });
-    res.json({ message: "Usuário registrado com Sucesso!" });
+    res.status(200).json({ message: "Usuário registrado com Sucesso!" });
   }catch (error) {
     console.error("Erro no cadastro de Usuário:", error);
     res.status(500).json({ message: "Erro no cadastro de Usuário" });
@@ -31,9 +33,9 @@ const registerUser = async (req:any, res:any) => {
 // LOGIN
 const login = async (req:any, res:any) => {
 
-  const { email, password } = req.body;
-
   try {
+
+    const { email, password } = req.body;
 
     const user:any = await User.findOne({ where: { email } });
 
