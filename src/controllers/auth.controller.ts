@@ -30,7 +30,9 @@ const tasks = async (req:any, res:any) => {
   const {id} = req.params;
   const {status} = req.query;
 
-  try {
+  const idUser = req.user.id;
+
+  try {  
     
     if (id) {
 
@@ -44,11 +46,11 @@ const tasks = async (req:any, res:any) => {
     }
 
     var condicao = {
-      where: { status: { [Op.ne]: "inativo"}}
+      where: { status: { [Op.ne]: "inativo"},idUser:idUser }
     }
 
     if(status){
-      condicao =  {where:{ status: status }}
+      condicao =  {where:{ status: status,idUser:idUser } }
     }
 
     const tarefas = await Tarefas.findAll(condicao);
@@ -66,7 +68,7 @@ const tasks = async (req:any, res:any) => {
 
 const createTask = async (req:any, res:any) => {
 
-  const {descricao,nome} = req.body;
+  const {descricao,nome,dataVencimento} = req.body;
   const {id} = req.params;
 
   const status = "pending";
@@ -75,10 +77,10 @@ const createTask = async (req:any, res:any) => {
 
   if(id){
     const tarefa = await Tarefas.findByPk(id);
-    await tarefa.update({ nome,descricao,status });
+    await tarefa.update({ nome,descricao,dataVencimento,status });
     res.json({ message: "Tarefa Atualizada com Sucesso!" });
   }else{
-    const novaTarefa= await Tarefas.create({ nome,descricao,idUser,status });
+    const novaTarefa= await Tarefas.create({ nome,descricao,idUser,dataVencimento,status });
     res.json({ message: "Tarefa registrada com Sucesso!" });
   }  
 };
@@ -88,7 +90,7 @@ const createTask = async (req:any, res:any) => {
 
 const deleteTask = async (req:any, res:any) => {
   const {id} = req.params;
-  const status = "inativo";
+  const status = "inactive";
 
   if(id > 0){
     const tarefa = await Tarefas.findByPk(id);

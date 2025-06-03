@@ -20,6 +20,11 @@ const Tarefas = sequelize.define("Tarefas", {
     allowNull: false,
     unique: false,
   },
+  dataVencimento:{
+    type: DataTypes.DATE,
+    allowNull: false,
+    unique: false,
+  },
   status: {
     type: DataTypes.STRING,
     allowNull: false,
