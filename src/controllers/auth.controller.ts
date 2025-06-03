@@ -12,8 +12,7 @@ const generateToken = (user:any) => {
   if (!secret) {
     throw new Error("JWT_SECRET não está definido no arquivo .env");
   }
-
-  return jwt.sign({ email: user.email }, secret, { expiresIn: "1h" });
+  return jwt.sign({ email: user.email,id:user.id }, secret, { expiresIn: "1h" });
 };
 
 // CADASTRO DE USUÁRIO
@@ -28,10 +27,13 @@ const cadastrausuario = async (req:any, res:any) => {
 // LISTAGEM DE TAREFAS
 
 const tasks = async (req:any, res:any) => {
-  try {
-    const { id,idUser } = req.body;
+  const {id} = req.params;
+  const {status} = req.query;
 
+  try {
+    
     if (id) {
+
       const tarefa = await Tarefas.findByPk(id);
 
       if (!tarefa) {
@@ -41,13 +43,20 @@ const tasks = async (req:any, res:any) => {
       return res.json(tarefa);
     }
 
-    const tarefas = await Tarefas.findAll({
-      where: { status: { [Op.ne]: "inativo" },idUser: idUser}
-    });
+    var condicao = {
+      where: { status: { [Op.ne]: "inativo"}}
+    }
+
+    if(status){
+      condicao =  {where:{ status: status }}
+    }
+
+    const tarefas = await Tarefas.findAll(condicao);
     
     res.json(tarefas);
 
   } catch (error) {
+
     console.error("Erro ao listar tarefas:", error);
     res.status(500).json({ message: "Erro ao listar tarefas" });
   }
@@ -55,10 +64,15 @@ const tasks = async (req:any, res:any) => {
 
 // CADASTRO DE TAREFAS
 
-const cadastraTarefas = async (req:any, res:any) => {
+const createTask = async (req:any, res:any) => {
 
-  const {descricao,nome,id,idUser} = req.body;
-  const status = "pendente";
+  const {descricao,nome} = req.body;
+  const {id} = req.params;
+
+  const status = "pending";
+   
+  const idUser = req.user.id;
+
   if(id){
     const tarefa = await Tarefas.findByPk(id);
     await tarefa.update({ nome,descricao,status });
@@ -69,31 +83,17 @@ const cadastraTarefas = async (req:any, res:any) => {
   }  
 };
 
-// FINALIZAR DE TAREFAS
-
-const finalizarTarefas = async (req:any, res:any) => {
-  const {id} = req.body;
-  const status = "concluída";
-
-  if(id > 0){
-    const tarefa = await Tarefas.findByPk(id);
-    await tarefa.update({ status });
-    res.json({ message: "Tarefa Finalizada com Sucesso!" });
-  }else{
-    res.json({ message: "Não foi encontrado ID!" });
-  }  
-};
 
 // EXCLUIR TAREFAS
 
-const excluirTarefas = async (req:any, res:any) => {
-  const {id} = req.body;
+const deleteTask = async (req:any, res:any) => {
+  const {id} = req.params;
   const status = "inativo";
 
   if(id > 0){
     const tarefa = await Tarefas.findByPk(id);
     await tarefa.update({ status });
-    res.json({ message: "Tarefa Excluida!" });
+    res.status(200).json({ message: "Tarefa Excluida com Sucesso!" });
   }else{
     res.json({ message: "Não foi encontrado ID!" });
   }  
@@ -118,7 +118,7 @@ const login = async (req:any, res:any) => {
 
     const token = generateToken(user);
 
-    res.json({ token, user: { id: user.id, email: user.email,nome: user.nome } });
+    res.json({token});
   } catch (error) {
     console.error("Erro no login:", error);
     res.status(500).json({ message: "Erro interno do servidor" });
@@ -129,7 +129,6 @@ export {
   cadastrausuario,
   login,
   tasks,
-  cadastraTarefas,
-  finalizarTarefas,
-  excluirTarefas
+  createTask,
+  deleteTask
 };
