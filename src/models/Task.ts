@@ -1,26 +1,26 @@
 import { DataTypes } from "sequelize";
 import {sequelize} from "../config/db";
 
-const Tarefas = sequelize.define("Tarefas", {
+const Task = sequelize.define("Task", {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true,
   },
-  nome: {
+  title: {
     type: DataTypes.STRING,
     allowNull: false
   },
-  descricao: {
+  description: {
     type: DataTypes.STRING,
     allowNull: false
   },
-  idUser:{
+  userId:{
     type: DataTypes.INTEGER,
     allowNull: false,
     unique: false,
   },
-  dataVencimento:{
+  dueDate:{
     type: DataTypes.DATE,
     allowNull: false,
     unique: false,
@@ -32,4 +32,4 @@ const Tarefas = sequelize.define("Tarefas", {
   }
 });
 
-module.exports = Tarefas;
+export {Task};

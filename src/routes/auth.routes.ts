@@ -1,10 +1,14 @@
 import express from "express";
-import { cadastrausuario, login,tasks,createTask,deleteTask} from "../controllers/auth.controller";
+
+import { login, registerUser } from "../controllers/UserController";
+import { tasks,createTask,deleteTask,completeTask} from "../controllers/TaskController";
+
 import {authMiddleware} from "../middlewares/auth.middleware";
+
 
 const router = express.Router();
 
-router.post("/auth/register",cadastrausuario);
+router.post("/auth/register",registerUser);
 router.post("/auth/login", login);
 
 router.get("/tasks", authMiddleware, tasks);
@@ -14,6 +18,8 @@ router.post("/tasks", authMiddleware, createTask);
 router.put("/tasks/:id", authMiddleware, createTask);
 
 router.delete("/tasks/:id", authMiddleware, deleteTask);
+
+router.patch("/tasks/:id/complete", authMiddleware, completeTask);
 
 
 

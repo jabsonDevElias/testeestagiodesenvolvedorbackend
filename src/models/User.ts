@@ -7,7 +7,7 @@ const User = sequelize.define("User", {
     autoIncrement: true,
     primaryKey: true,
   },
-  nome: {
+  name: {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
@@ -23,4 +23,4 @@ const User = sequelize.define("User", {
   },
 });
 
-module.exports = User;
+export {User};
