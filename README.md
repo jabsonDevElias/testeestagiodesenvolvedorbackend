@@ -58,6 +58,29 @@ Você pode fazer testes da aplicação em : `http://localhost:5000/api-doc` ou u
 
 ---
 
+## 📁 Estrutura de Pastas
+
+```
+src/
+├── config/             # Configurações da aplicação (ex: conexão com o banco)
+│   └── db.ts
+├── controllers/        # Controladores que lidam com a lógica das rotas
+│   ├── TaskController.ts
+│   └── UserController.ts
+├── middlewares/        # Middlewares usados para autenticação e validação
+│   └── middleware.ts
+├── models/             # Modelos Sequelize representando tabelas do banco
+│   ├── Task.ts
+│   └── User.ts
+├── repositories/       # Camada de acesso a dados (em branco, reservado para melhorias futuras)
+├── routes/             # Definições das rotas da aplicação
+│   └── routes.ts
+├── services/           # Lógica de negócio (em branco, reservado para futuras melhorias)
+└── app.ts              # Ponto de entrada da aplicação
+```
+
+---
+
 ## 🚀 Rotas da API
 
 ### 🔐 Autenticação
