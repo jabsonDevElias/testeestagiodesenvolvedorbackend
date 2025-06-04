@@ -22,6 +22,8 @@ Esta é uma API para gerenciamento de tarefas com autenticação JWT. Os usuári
 3. A API estará disponível em: `http://localhost:5000`
 
 4. Você pode fazer testes da aplicação em : `http://localhost:5000/api-doc`
+ou Usar o collection [📄 Baixar Collection](https://github.com/jabsonDevElias/testeestagiodesenvolvedorbackend/blob/main/API%20-%20Gerenciador%20de%20Tarefas.postman_collection.json)
+
 
 ---
 
@@ -166,7 +168,7 @@ Ou use `/tasks/` para listar todas as tasks.
 **Erros Possíveis:**
 - 401: Acesso negado
 - 403: Token inválido
-- 404: Tarefa não Encontrada
+- 404: Tarefa não encontrada ou não pertence ao Usúario
 
 #### 📩 DELETE `/tasks/:id`  
 Rota para excluir uma task. Basta passar o Id como parâmetro.
@@ -181,6 +183,7 @@ Rota para excluir uma task. Basta passar o Id como parâmetro.
 **Erros Possíveis:**
 - 401: Acesso negado
 - 403: Token inválido
+- 404: Tarefa não encontrada ou não pertence ao Usúario
 - 404: ID não encontrado
 
 #### 📩 PATCH `/tasks/:id/complete`  
