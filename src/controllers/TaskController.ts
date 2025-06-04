@@ -116,7 +116,6 @@ const deleteTask = async (req:any, res:any) => {
     const userId = req.user.id;
 
     if(id > 0){
-      
       const tarefa = await Task.findOne({where:{
         id:id,
         userId:userId 
@@ -125,7 +124,7 @@ const deleteTask = async (req:any, res:any) => {
       if (!tarefa) {
         return res.status(404).json({ message: "Tarefa não encontrada ou não pertence ao Usúario" });
       }
-
+      
       await tarefa.update({ status });
       res.status(200).json({ message: "Tarefa Excluida com Sucesso!" });
     }else{
