@@ -13,22 +13,30 @@ Esta é uma API para gerenciamento de tarefas com autenticação JWT. Os usuári
    cd seurepositorio
    ```
 
-2. **Crie um arquivo `.env` na raiz do projeto com o seguinte conteúdo:**
-   ```env
-   DB_USER=postgres
-   DB_HOST=postgres
-   DB_NAME=tarefas
-   DB_PASS=1234
-   DB_PORT=5432
-   JWT_SECRET=testededesenvolvedorfullstack
-   ```
 
-3. **Inicie a aplicação com Docker Compose:**
+2. **Inicie a aplicação com Docker Compose:**
    ```bash
    docker-compose up --build
    ```
 
-4. A API estará disponível em: `http://localhost:5000`
+3. A API estará disponível em: `http://localhost:5000`
+
+4. Você pode fazer testes da aplicação em : `http://localhost:5000/api-doc`
+
+---
+
+## 🛠️ Tecnologias Utilizadas
+
+- **Node.js** – Ambiente de execução JavaScript no servidor (Utileze).
+- **TypeScript** – Superset do JavaScript com tipagem estática.
+- **Express** – Framework web para criação das rotas.
+- **PostgreSQL** – Banco de dados relacional utilizado.
+- **Sequelize** – ORM para manipulação do banco de dados com PostgreSQL.
+- **JWT (JSON Web Token)** – Autenticação segura por token.
+- **Swagger** – Documentação interativa da API.
+- **Docker + Docker Compose** – Containerização dos serviços (API e banco de dados).
+
+🧑‍💻 Nota: Esta aplicação foi construída com Node.js + TypeScript e Express, por opção pessoal e por ainda não possuir experiência com NestJS.
 
 ---
 

@@ -16,10 +16,13 @@ const tasks = async (req:any, res:any) => {
     
     if (id) {
 
-      const tarefa = await Task.findByPk(id);
+      const tarefa = await Task.findAll({where:{
+        id:id,
+        userId:userId 
+      }});
 
-      if (!tarefa) {
-        return res.status(404).json({ message: "Tarefa não encontrada" });
+      if (!tarefa.length) {
+        return res.status(404).json({ message: "Tarefa não encontrada ou não pertence ao Usúario" });
       }
 
       return res.json(tarefa);
@@ -58,9 +61,19 @@ const createTask = async (req:any, res:any) => {
   const userId = req.user.id;
 
   if(id){
-    const tarefa:any = await Task.findByPk(id);
+
+      var tarefa:any = await Task.findOne({where:{
+        id:id,
+        userId:userId 
+      }});
+
+      if (!tarefa) {
+        return res.status(404).json({ message: "Tarefa não encontrada ou não pertence ao Usúario" });
+      }
+
     await tarefa.update({ title,description,dueDate});
     res.status(200).json({ message: "Tarefa Atualizada com Sucesso!" });
+
   }else{
     await Task.create({ title,description,userId,dueDate,status });
     res.status(200).json({ message: "Tarefa registrada com Sucesso!" });
@@ -100,9 +113,19 @@ const deleteTask = async (req:any, res:any) => {
   try{
     const {id} = req.params;
     const status = "inactive";
+    const userId = req.user.id;
 
     if(id > 0){
-      const tarefa:any = await Task.findByPk(id);
+      
+      const tarefa = await Task.findOne({where:{
+        id:id,
+        userId:userId 
+      }});
+
+      if (!tarefa) {
+        return res.status(404).json({ message: "Tarefa não encontrada ou não pertence ao Usúario" });
+      }
+
       await tarefa.update({ status });
       res.status(200).json({ message: "Tarefa Excluida com Sucesso!" });
     }else{
